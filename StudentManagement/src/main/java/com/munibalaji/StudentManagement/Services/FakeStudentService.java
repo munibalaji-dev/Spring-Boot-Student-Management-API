@@ -98,7 +98,7 @@ public class FakeStudentService implements StudentService{
                 FakeStudentDto.class,
                 id);
 
-            // Converting External DTO to our DTO
+
         FakeStudentDto updatedStudent  = response.getBody();
 
 
@@ -110,6 +110,7 @@ public class FakeStudentService implements StudentService{
 //        result.setCourse(fakeResponse.getCourse());
 //        result.setAge(fakeResponse.getAge());
 
+        // Converting External DTO to our DTO
         return StudentMapper.FakeStudentDtoToStudentDto(updatedStudent);
     }
 
