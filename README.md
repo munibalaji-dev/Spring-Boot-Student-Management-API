@@ -28,8 +28,8 @@ Controller → Service → External API
 
 The application uses **DTO conversion**:
 
-* StudentDto → FakeStudentDto
-* FakeStudentDto → StudentDto
+* StudentRequestDto --> Entity
+* Entity --> StudentResponseDto
 
 This ensures separation between internal models and external API models.
 
