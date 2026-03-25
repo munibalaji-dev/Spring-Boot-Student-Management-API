@@ -1,40 +1,39 @@
 package com.munibalaji.StudentManagement.mappers;
 
-import com.munibalaji.StudentManagement.dtos.StudentDto;
-import com.munibalaji.StudentManagement.thirdparty_dtos.FakeStudentDto;
+import com.munibalaji.StudentManagement.dtos.StudentRequestDto;
+import com.munibalaji.StudentManagement.dtos.StudentResponseDto;
+import com.munibalaji.StudentManagement.models.Student;
 
 public class StudentMapper {
 
-    public static StudentDto FakeStudentDtoToStudentDto(FakeStudentDto fakeStudentDto){
+    public static Student studentRequestDtoToEntity(StudentRequestDto studentRequestDto){
 
-        if (fakeStudentDto == null){
+        if (studentRequestDto == null){
             return null;
         }
 
-        StudentDto studentDto = new StudentDto();
-        studentDto.setId(fakeStudentDto.getId());
-        studentDto.setName(fakeStudentDto.getName());
-        studentDto.setCourse(fakeStudentDto.getCourse());
-        studentDto.setEmail(fakeStudentDto.getEmail());
-        studentDto.setAge(fakeStudentDto.getAge());
+        Student student = new Student();
+        student.setName(studentRequestDto.getName());
+        student.setCourse(studentRequestDto.getCourse());
+        student.setEmail(studentRequestDto.getEmail());
+        student.setAge(studentRequestDto.getAge());
 
-        return studentDto;
+        return student;
     }
 
 
-    public static FakeStudentDto StudentDtoToFakeStudentDto(StudentDto studentDto){
+    public static StudentResponseDto entityToResponseDto(Student student){
 
-        if (studentDto == null){
+        if (student == null){
             return null;
         }
 
-        FakeStudentDto fakeStudentDto = new FakeStudentDto();
-        fakeStudentDto.setId(studentDto.getId());
-        fakeStudentDto.setName(studentDto.getName());
-        fakeStudentDto.setEmail(studentDto.getEmail());
-        fakeStudentDto.setCourse(studentDto.getCourse());
-        fakeStudentDto.setAge(studentDto.getAge());
+        StudentResponseDto studentResponseDto = new StudentResponseDto();
+        studentResponseDto.setName(student.getName());
+        studentResponseDto.setCourse(student.getCourse());
+        studentResponseDto.setEmail(student.getEmail());
+        studentResponseDto.setAge(student.getAge());
 
-        return fakeStudentDto;
+        return studentResponseDto;
     }
 }

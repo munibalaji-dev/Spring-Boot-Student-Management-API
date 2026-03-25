@@ -1,7 +1,8 @@
 package com.munibalaji.StudentManagement.controllers;
 
 import com.munibalaji.StudentManagement.Services.StudentService;
-import com.munibalaji.StudentManagement.dtos.StudentDto;
+import com.munibalaji.StudentManagement.dtos.StudentRequestDto;
+import com.munibalaji.StudentManagement.dtos.StudentResponseDto;
 import com.munibalaji.StudentManagement.exceptions.NotFoundException;
 import com.munibalaji.StudentManagement.models.Student;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,28 +26,27 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<StudentDto> createStudent(@RequestBody StudentDto studentDto){
-        return new ResponseEntity<>(studentService.createStudent(studentDto), HttpStatus.OK);
+    public ResponseEntity<StudentResponseDto> createStudent(@RequestBody StudentRequestDto studentRequestDto){
+        return new ResponseEntity<>(studentService.createStudent(studentRequestDto), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentDto> getStudentById(@PathVariable("id") Long id) throws NotFoundException{
+    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable("id") Long id) throws NotFoundException{
         return new ResponseEntity<>(studentService.getStudentById(id),HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<StudentDto> updateStudentById(@PathVariable("id") Long id, @RequestBody StudentDto studentDto){
-        StudentDto updatedStudent = studentService.updateStudentById(id, studentDto);
-        return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
+    public ResponseEntity<StudentResponseDto> updateStudentById(@PathVariable("id") Long id, @RequestBody StudentRequestDto studentRequestDto){
+        return new ResponseEntity<>(studentService.updateStudentById(id, studentRequestDto), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<StudentDto>> getAllStudents(){
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents(){
         return new ResponseEntity<>(studentService.getAllStudents(),HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<StudentDto> deleteStudentById(@PathVariable("id") Long id){
+    public ResponseEntity<StudentResponseDto> deleteStudentById(@PathVariable("id") Long id){
         return new ResponseEntity<>(studentService.deleteStudentById(id),HttpStatus.OK);
     }
 

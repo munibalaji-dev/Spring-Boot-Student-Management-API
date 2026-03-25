@@ -6,9 +6,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StudentDto{
+public class StudentRequestDto{
 
-    private long id;
     private String name;
     private String email;
     private String course;

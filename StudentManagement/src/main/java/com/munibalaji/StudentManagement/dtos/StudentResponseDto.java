@@ -1,17 +1,16 @@
-package com.munibalaji.StudentManagement.models;
+package com.munibalaji.StudentManagement.dtos;
 
-import jakarta.persistence.Entity;
+
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@Entity
-public class Student extends BaseModel{
+public class StudentResponseDto{
 
+    private long id;
     private String name;
     private String email;
     private String course;
     private int age;
-
 }

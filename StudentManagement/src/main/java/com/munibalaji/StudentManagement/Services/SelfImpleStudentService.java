@@ -1,7 +1,8 @@
 package com.munibalaji.StudentManagement.Services;
 
-import com.munibalaji.StudentManagement.dtos.StudentDto;
-import com.munibalaji.StudentManagement.thirdparty_dtos.FakeStudentDto;
+
+import com.munibalaji.StudentManagement.dtos.StudentRequestDto;
+import com.munibalaji.StudentManagement.dtos.StudentResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,27 +13,27 @@ public class SelfImpleStudentService implements StudentService{
 
 
     @Override
-    public StudentDto createStudent(StudentDto studentDto) {
+    public StudentResponseDto createStudent(StudentRequestDto studentRequestDto) {
         return null;
     }
 
     @Override
-    public StudentDto getStudentById(Long id) {
+    public StudentResponseDto getStudentById(Long id) {
         System.out.println("Returning from another fake student");
         return null;
     }
 
     @Override
-    public StudentDto updateStudentById(Long id, StudentDto studentDto) {
+    public StudentResponseDto updateStudentById(Long id, StudentRequestDto studentRequestDto) {
         return null;
     }
 
-    public List<StudentDto> getAllStudents(){
+    public List<StudentResponseDto> getAllStudents(){
         return null;
     }
 
     @Override
-    public StudentDto deleteStudentById(Long id) {
+    public StudentResponseDto deleteStudentById(Long id) {
         return null;
     }
 

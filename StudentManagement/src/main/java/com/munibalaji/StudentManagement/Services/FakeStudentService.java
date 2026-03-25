@@ -1,8 +1,10 @@
 package com.munibalaji.StudentManagement.Services;
 
+import com.munibalaji.StudentManagement.dtos.StudentRequestDto;
+import com.munibalaji.StudentManagement.dtos.StudentResponseDto;
 import com.munibalaji.StudentManagement.mappers.StudentMapper;
-import com.munibalaji.StudentManagement.thirdparty_dtos.FakeStudentDto;
-import com.munibalaji.StudentManagement.dtos.StudentDto;
+import com.munibalaji.StudentManagement.models.Student;
+import com.munibalaji.StudentManagement.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
@@ -29,120 +31,104 @@ public class FakeStudentService implements StudentService{
     private static final String DELETE_STUDENT = BASE_URL + "/{id}";
 
     private RestTemplateBuilder restTemplateBuilder;
+    private StudentRepository studentRepository;
     @Autowired
-    public FakeStudentService(RestTemplateBuilder restTemplateBuilder){
+    public FakeStudentService(RestTemplateBuilder restTemplateBuilder,
+                              StudentRepository studentRepository){
         this.restTemplateBuilder = restTemplateBuilder;
+        this.studentRepository = studentRepository;
     }
 
 
     @Override
-    public StudentDto createStudent(StudentDto student){
+    public StudentResponseDto createStudent(StudentRequestDto studentRequestDto){
 
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        FakeStudentDto request = StudentMapper.StudentDtoToFakeStudentDto(student);
-
-        // After Using mapper class I reduced repeated code
-//        FakeStudentDto request = new FakeStudentDto();
-//        request.setId(student.getId());
-//        request.setName(student.getName());
-//        request.setEmail(student.getEmail());
-//        request.setCourse(student.getCourse());
-//        request.setAge(student.getAge());
+        Student student = StudentMapper.studentRequestDtoToEntity(studentRequestDto);
 
 
-        ResponseEntity <FakeStudentDto> response = restTemplate.postForEntity(
+        ResponseEntity <StudentResponseDto> response = restTemplate.postForEntity(
                 CREATE_STUDENT,
-                request,
-                FakeStudentDto.class
+                student,
+                StudentResponseDto.class
         );
-        FakeStudentDto fakeStudentDto = response.getBody();
-        return StudentMapper.FakeStudentDtoToStudentDto(fakeStudentDto);
+        StudentResponseDto res = response.getBody();
 
-    }
-
-    @Override
-    public StudentDto getStudentById(Long id) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStudentDto> response = restTemplate.getForEntity(
-                GET_STUDENT,
-                FakeStudentDto.class,
-                id);
-        FakeStudentDto fakeStudentDto = response.getBody();
-
-        if (fakeStudentDto == null){
-            return new FakeStudentDto();
+        if (res == null) {
+            return new StudentResponseDto();
         }
 
-        return StudentMapper.FakeStudentDtoToStudentDto(fakeStudentDto);
+        return res;
+
     }
 
-    public StudentDto updateStudentById(Long id, StudentDto studentDto){
+    @Override
+    public StudentResponseDto getStudentById(Long id) {
+
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        //  Converting our DTO to External DTO
-        FakeStudentDto request = StudentMapper.StudentDtoToFakeStudentDto(studentDto);
+        ResponseEntity<StudentResponseDto> response = restTemplate.getForEntity(
+                GET_STUDENT,
+                StudentResponseDto.class,
+                id);
 
-        // After using Student mapper class I reduced repeated code
-//        FakeStudentDto request = new FakeStudentDto();
-//        request.setId(studentDto.getId());
-//        request.setName(studentDto.getName());
-//        request.setEmail(studentDto.getEmail());
-//        request.setCourse(studentDto.getCourse());
-//        request.setAge(studentDto.getAge());
 
-        ResponseEntity<FakeStudentDto> response = restTemplate.exchange(
+        StudentResponseDto studentResponseDto = response.getBody();
+
+        if (studentResponseDto == null){
+            return new StudentResponseDto();
+        }
+
+        return studentResponseDto;
+    }
+
+    public StudentResponseDto updateStudentById(Long id, StudentRequestDto studentRequestDto){
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+
+        Student request = StudentMapper.studentRequestDtoToEntity(studentRequestDto);
+
+        ResponseEntity<StudentResponseDto> response = restTemplate.exchange(
                 UPDATE_STUDENT,
                 HttpMethod.PUT,
                 new HttpEntity<>(request),
-                FakeStudentDto.class,
+                StudentResponseDto.class,
                 id);
 
 
-        FakeStudentDto updatedStudent  = response.getBody();
+        StudentResponseDto updatedStudent  = response.getBody();
 
-
-        // After modification
-//        StudentDto result = new StudentDto();
-//        result.setId(fakeResponse.getId());
-//        result.setName(fakeResponse.getName());
-//        result.setEmail(fakeResponse.getEmail());
-//        result.setCourse(fakeResponse.getCourse());
-//        result.setAge(fakeResponse.getAge());
-
-        // Converting External DTO to our DTO
-        return StudentMapper.FakeStudentDtoToStudentDto(updatedStudent);
+        return updatedStudent;
     }
 
     @Override
-    public List<StudentDto> getAllStudents() {
+    public List<StudentResponseDto> getAllStudents() {
 
         RestTemplate restTemplate = restTemplateBuilder.build();
 
-        ResponseEntity<FakeStudentDto[]> response = restTemplate.getForEntity(
+        ResponseEntity<StudentResponseDto[]> response = restTemplate.getForEntity(
                 GET_ALL_STUDENTS,
-                FakeStudentDto[].class);
+                StudentResponseDto[].class);
 
-        FakeStudentDto[] fakeStudentDtos = response.getBody();
+        StudentResponseDto[] studentResponseDtos = response.getBody();
 
-//        return Arrays.asList(fakeStudentDtos);
-
-        return Arrays.stream(fakeStudentDtos)
-                .map(StudentMapper::FakeStudentDtoToStudentDto)
-                .toList();
+        return Arrays.asList(studentResponseDtos);
     }
 
     @Override
-    public StudentDto deleteStudentById(Long id) {
+    public StudentResponseDto deleteStudentById(Long id) {
+
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStudentDto> response = restTemplate.exchange(
+
+        ResponseEntity<StudentResponseDto> response = restTemplate.exchange(
                 DELETE_STUDENT,
                 HttpMethod.DELETE,
                 null,
-                FakeStudentDto.class,
+                StudentResponseDto.class,
                 id);
 
-        FakeStudentDto fakeStudentDto = response.getBody();
-        return StudentMapper.FakeStudentDtoToStudentDto(fakeStudentDto);
+        StudentResponseDto studentResponseDto = response.getBody();
+        return studentResponseDto;
     }
 }

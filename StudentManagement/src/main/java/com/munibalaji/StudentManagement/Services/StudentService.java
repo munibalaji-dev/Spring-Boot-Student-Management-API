@@ -1,21 +1,20 @@
 package com.munibalaji.StudentManagement.Services;
 
-import com.munibalaji.StudentManagement.dtos.StudentDto;
-import com.munibalaji.StudentManagement.thirdparty_dtos.FakeStudentDto;
-
+import com.munibalaji.StudentManagement.dtos.StudentRequestDto;
+import com.munibalaji.StudentManagement.dtos.StudentResponseDto;
 import java.util.List;
 
 
 public interface StudentService {
 
 
-    public StudentDto createStudent(StudentDto studentDto);
+    public StudentResponseDto createStudent(StudentRequestDto studentRequestDto);
 
-    public StudentDto getStudentById(Long id);
+    public StudentResponseDto getStudentById(Long id);
 
-    public List<StudentDto> getAllStudents();
+    public List<StudentResponseDto> getAllStudents();
 
-    public StudentDto updateStudentById(Long id, StudentDto studentDto);
+    public StudentResponseDto updateStudentById(Long id, StudentRequestDto studentRequestDto);
 
-    public StudentDto deleteStudentById(Long id);
+    public StudentResponseDto deleteStudentById(Long id);
 }
